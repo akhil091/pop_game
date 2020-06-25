@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<style type="text/css">
+<style >
 body { margin: 0; padding: 0; background: #000;}
 canvas { display: block; margin: 0 auto; background: #fff; }
 </style>
@@ -17,8 +17,6 @@ canvas { display: block; margin: 0 auto; background: #fff; }
 <canvas></canvas>
 <script>
 
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating
-// shim layer with setTimeout fallback
 window.requestAnimFrame = (function(){
   return  window.requestAnimationFrame       || 
           window.webkitRequestAnimationFrame || 
@@ -44,7 +42,7 @@ var POP = {
     entities: [],
     // the amount of game ticks until
     // we spawn a bubble
-    nextBubble: 100,
+    nextBubble: 1,
     // for tracking player's progress
     score: {
         taps: 0,
@@ -180,7 +178,7 @@ var POP = {
  
 
         // decrease our nextBubble counter
-        POP.nextBubble -= 1;
+        POP.nextBubble -= 10;
         // if the counter is less than zero
         if (POP.nextBubble < 0) {
             // put a new instance of bubble into our entities array
@@ -274,8 +272,8 @@ var POP = {
         }
 
         // display scores
-        POP.Draw.text('Hit: ' + POP.score.hit, 20, 30, 14, '#fff');
-        POP.Draw.text('Escaped: ' + POP.score.escaped, 20, 50, 14, '#fff');
+        POP.Draw.text('Maare gye: ' + POP.score.hit, 20, 30, 14, '#fff');
+        POP.Draw.text('Bhaag Gaye: ' + POP.score.escaped, 20, 50, 14, '#fff');
         POP.Draw.text('Accuracy: ' + POP.score.accuracy + '%', 20, 70, 14, '#fff');
 
     },
@@ -366,7 +364,7 @@ POP.Touch = function(x, y) {
     this.x = x;             // the x coordinate
     this.y = y;             // the y coordinate
     this.r = 5;             // the radius
-    this.opacity = 1;       // inital opacity. the dot will fade out
+    this.opacity = 0.5;       // inital opacity. the dot will fade out
     this.fade = 0.05;       // amount by which to fade on each game tick
     // this.remove = false;    // flag for removing this entity. POP.update
                             // will take care of this
@@ -388,7 +386,7 @@ POP.Bubble = function() {
 
     this.type = 'bubble';
     this.r = (Math.random() * 20) + 10;
-    this.speed = (Math.random() * 3) + 1;
+    this.speed = (Math.random() * 10) + 1;
  
     this.x = (Math.random() * (POP.WIDTH) - this.r);
     this.y = POP.HEIGHT + (Math.random() * 100) + 100;
@@ -406,7 +404,7 @@ POP.Bubble = function() {
     this.update = function() {
 
         // a sine wave is commonly a function of time
-        var time = new Date().getTime() * 0.002;
+        var time = new Date().getTime() * 0.006;
 
         this.y -= this.speed;
         // the x coord to follow a sine wave
